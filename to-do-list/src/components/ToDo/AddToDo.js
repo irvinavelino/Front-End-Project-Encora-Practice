@@ -37,20 +37,15 @@ const AddToDo=(props)=>{
         }
         else
         {
-            if(!localStorage.getItem('id'))
-            {
-                localStorage.setItem('id',0)
-            }
             closeModal();
             fetch('http://localhost:9090/todos',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({id:parseInt(localStorage.getItem('id')),name:enteredName, priority:enteredPriority,dueDate:enteredDueDate})
+            body: JSON.stringify({name:enteredName, priority:enteredPriority,dueDate:enteredDueDate})
             })
             setEnteredName('')
             setEnteredDueDate('')
             setEnteredPriority('')
-            localStorage.setItem('id',(parseInt(localStorage.getItem('id')))+1)
         }
         
     }
@@ -74,7 +69,8 @@ const AddToDo=(props)=>{
             <input type="text" id='name' onChange={nameChangeHandler} value={enteredName}/>
             <label htmlFor='priority'>Priority:</label>
             <select id='priority' name='priority'onChange={priorityChangeHandler} value={enteredPriority}>
-                <option value='HIGH' selected>High</option>
+                <option value='' ></option>
+                <option value='HIGH' >High</option>
                 <option value='MEDIUM' >Medium</option>
                 <option value='LOW' >Low</option>
             </select>

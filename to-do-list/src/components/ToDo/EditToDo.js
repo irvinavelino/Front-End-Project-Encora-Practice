@@ -18,7 +18,7 @@ const EditToDo=(props) => {
     const closeModal=(event)=>{
         setModal(false);
     }
-    const addToDoHandler=(event)=>{
+    const editToDoHandler=(event)=>{
         event.preventDefault();
         console.log(enteredName,enteredPriority,enteredDueDate)
         if(enteredName.trim().length===0)
@@ -37,6 +37,7 @@ const EditToDo=(props) => {
         else
         {
             closeModal();
+            console.log(props.data.id)
             fetch(`http://localhost:9090/todos/${props.data.id}`,{
             method:'PUT',
             headers:{'Content-Type':'application/json'},
@@ -60,7 +61,7 @@ const EditToDo=(props) => {
             {error &&<ErrorModal title={error.title} message={error.message}onConfirm={errorHandler}></ErrorModal>}
             {modal===true && <div className={classes.backdrop} >
                  <Card className={classes.modal && classes.input}>
-                 <form onSubmit={addToDoHandler}>
+                 <form onSubmit={editToDoHandler}>
                  <label htmlFor='name'>Name:</label>
                  <input type="text" id='name' onChange={nameChangeHandler} value={enteredName}/>
                  <label htmlFor='priority'>Priority:</label>
