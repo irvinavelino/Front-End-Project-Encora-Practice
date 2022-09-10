@@ -14,7 +14,10 @@ const AverageTimeToDo=({HighToDosDone,MiddleToDosDone,LowToDosDone})=>{
         const minute=second*60;
         const hour=minute*60;
         const day=hour*24;
-        for(let i=0;i<HighToDosDone.length;i++) 
+        console.log(HighToDosDone,MiddleToDosDone,LowToDosDone)
+        if(HighToDosDone.length>0)
+        {
+            for(let i=0;i<HighToDosDone.length;i++) 
         {
             sum+=new Date(HighToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
         }
@@ -27,61 +30,81 @@ const AverageTimeToDo=({HighToDosDone,MiddleToDosDone,LowToDosDone})=>{
         else if(hours>0)tim='hours'
         else if(days>0)tim='days'
         setAverageTimeHigh(days+':'+hours+':'+minutes+':'+seconds+' '+tim)
-        sum=0
+        }else{setAverageTimeHigh('0')}
+        if(MiddleToDosDone.length>0)
+        {
+            sum=0
         tim='seconds'
         for(let i=0;i<MiddleToDosDone.length;i++) 
         {
-            sum+=new Date(MiddleToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
+            sum+=new Date(MiddleToDosDone[i].doneDate).getTime()-new Date(MiddleToDosDone[i].creationDate).getTime()
         }
         sum/=MiddleToDosDone.length
-        days=Math.floor(sum/day%30)
-        hours=Math.floor(sum/hour%24)
-        minutes=Math.floor(sum/minute%60)
-        seconds=Math.floor(sum/second%60)
+        let days=Math.floor(sum/day%30)
+        let hours=Math.floor(sum/hour%24)
+        let minutes=Math.floor(sum/minute%60)
+        let seconds=Math.floor(sum/second%60)
         if(minutes>0)tim='minutes'
         else if(hours>0)tim='hours'
         else if(days>0)tim='days'
         setAverageTimeMedium(days+':'+hours+':'+minutes+':'+seconds+' '+tim)
-        sum=0
+        }else{setAverageTimeMedium('0')}
+        if(LowToDosDone.length>0)
+        {
+            sum=0
         tim='seconds'
         for(let i=0;i<LowToDosDone.length;i++) 
         {
-            sum+=new Date(LowToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
+            sum+=new Date(LowToDosDone[i].doneDate).getTime()-new Date(LowToDosDone[i].creationDate).getTime()
         }
         sum/=LowToDosDone.length
-        days=Math.floor(sum/day%30)
-        hours=Math.floor(sum/hour%24)
-        minutes=Math.floor(sum/minute%60)
-        seconds=Math.floor(sum/second%60)
+        let days=Math.floor(sum/day%30)
+        let hours=Math.floor(sum/hour%24)
+        let minutes=Math.floor(sum/minute%60)
+        let seconds=Math.floor(sum/second%60)
         if(minutes>0)tim='minutes'
         else if(hours>0)tim='hours'
         else if(days>0)tim='days'
         setAverageTimeLow(days+':'+hours+':'+minutes+':'+seconds+' '+tim)
+        }else{setAverageTimeLow('0')}
         sum=0;
         tim='seconds'
-        for(let i=0;i<HighToDosDone.length;i++) 
+        if(HighToDosDone.length>0)
         {
-            sum+=new Date(HighToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
+            for(let i=0;i<HighToDosDone.length;i++) 
+            {
+                sum+=new Date(HighToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
+            }
         }
-        for(let i=0;i<MiddleToDosDone.length;i++) 
+        else sum+=0
+        if(MiddleToDosDone.length>0)
         {
-            sum+=new Date(MiddleToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
-        }
+            for(let i=0;i<MiddleToDosDone.length;i++) 
+            {
+                sum+=new Date(MiddleToDosDone[i].doneDate).getTime()-new Date(MiddleToDosDone[i].creationDate).getTime()
+            }
+        }else sum+=0
+        if(LowToDosDone.length>0)
+        {
         for(let i=0;i<LowToDosDone.length;i++) 
         {
-            sum+=new Date(LowToDosDone[i].doneDate).getTime()-new Date(HighToDosDone[i].creationDate).getTime()
+            sum+=new Date(LowToDosDone[i].doneDate).getTime()-new Date(LowToDosDone[i].creationDate).getTime()
         }
+        }else sum+=0
         sum/=HighToDosDone.length+MiddleToDosDone.length+LowToDosDone.length
-        days=Math.floor(sum/day%30)
-        hours=Math.floor(sum/hour%24)
-        minutes=Math.floor(sum/minute%60)
-        seconds=Math.floor(sum/second%60)
+        let days=Math.floor(sum/day%30)
+        let hours=Math.floor(sum/hour%24)
+        let minutes=Math.floor(sum/minute%60)
+        let seconds=Math.floor(sum/second%60)
         if(minutes>0)tim='minutes'
         else if(hours>0)tim='hours'
         else if(days>0)tim='days'
+        if(seconds)
+        {
         setAverageTime(days+':'+hours+':'+minutes+':'+seconds+' '+tim)
+        }else setAverageTime('0')
     }
-    useEffect(averageTimeHandler,[MiddleToDosDone,MiddleToDosDone,LowToDosDone])
+    useEffect(averageTimeHandler,[HighToDosDone,MiddleToDosDone,LowToDosDone])
     
     return(
         <Card>

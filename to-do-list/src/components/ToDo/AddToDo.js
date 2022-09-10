@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState } from 'react';
 import Button from '../UI/Button';
 import classes from './AddToDo.module.css'
 import Card from '../UI/Card';

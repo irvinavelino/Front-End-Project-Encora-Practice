@@ -114,7 +114,7 @@ const ListToDo=(props) => {
             })
         }
     }
-    useEffect(fetchdata);
+    useEffect(fetchdata,[currentToDos]);
     return(
             <div>
             <SearchToDo data={dataFromChild}onSearch={fetchdata}></SearchToDo>
@@ -130,19 +130,71 @@ const ListToDo=(props) => {
                 </tr>
                 </thead>
                 {currentToDos.map((val) => {
-                    return(
-            <tbody key={val.id}>
-            <tr>
-                <td><input type="checkbox"id={val.id} onChange={e=>changeState(e)}defaultChecked={val.done?true:false} ></input></td>
-                <td>{val.name}</td>
-                <td>{val.priority}</td>
-                <td>{val.dueDate}</td>
-                <td><EditToDo data={{name:val.name,id:val.id,priority:val.priority,dueDate:val.dueDate}}onAdd={fetchdata}/><DeleteToDo data={val.id}></DeleteToDo></td>
-            </tr>
-            
-            </tbody>
-            
-                    )})}
+                    if(val.dueDate!=null && val.done.toString()==='false')
+                    {
+                        if(Math.floor(new Date(val.dueDate).getTime()-new Date().getTime())/(1000*60*60*24)<=7)
+                        {
+                            return(
+                                <tbody key={val.id}>
+                                <tr style={{background:'red'}}>
+                                    <td><input type="checkbox"id={val.id} onChange={e=>changeState(e)}defaultChecked={val.done?true:false} ></input></td>
+                                    <td>{val.name}</td>
+                                    <td>{val.priority}</td>
+                                    <td>{val.dueDate}</td>
+                                    <td><EditToDo data={{name:val.name,id:val.id,priority:val.priority,dueDate:val.dueDate}}onAdd={fetchdata}/><DeleteToDo data={val.id}></DeleteToDo></td>
+                                </tr>
+                                
+                                </tbody>
+                                
+                                    )
+                        }else if(Math.floor(new Date(val.dueDate).getTime()-new Date().getTime())/(1000*60*60*24)>7 && Math.floor(new Date(val.dueDate).getTime()-new Date().getTime())/(1000*60*60*24)<14)
+                        {
+                            return(
+                                <tbody key={val.id}>
+                                <tr style={{background:'yellow'}}>
+                                    <td><input type="checkbox"id={val.id} onChange={e=>changeState(e)}defaultChecked={val.done?true:false} ></input></td>
+                                    <td>{val.name}</td>
+                                    <td>{val.priority}</td>
+                                    <td>{val.dueDate}</td>
+                                    <td><EditToDo data={{name:val.name,id:val.id,priority:val.priority,dueDate:val.dueDate}}onAdd={fetchdata}/><DeleteToDo data={val.id}></DeleteToDo></td>
+                                </tr>
+                                
+                                </tbody>
+                                
+                                    )
+                        }else
+                        {
+                            return(
+                                <tbody key={val.id}>
+                                <tr style={{background:'green'}}>
+                                    <td><input type="checkbox"id={val.id} onChange={e=>changeState(e)}defaultChecked={val.done?true:false} ></input></td>
+                                    <td>{val.name}</td>
+                                    <td>{val.priority}</td>
+                                    <td>{val.dueDate}</td>
+                                    <td><EditToDo data={{name:val.name,id:val.id,priority:val.priority,dueDate:val.dueDate}}onAdd={fetchdata}/><DeleteToDo data={val.id}></DeleteToDo></td>
+                                </tr>
+                                
+                                </tbody>
+                                
+                                    )
+                        }
+                        
+                    }else{
+                        return(
+                            <tbody key={val.id}>
+                            <tr >
+                                <td><input type="checkbox"id={val.id} onChange={e=>changeState(e)}defaultChecked={val.done?true:false} ></input></td>
+                                <td>{val.name}</td>
+                                <td>{val.priority}</td>
+                                <td>{val.dueDate}</td>
+                                <td><EditToDo data={{name:val.name,id:val.id,priority:val.priority,dueDate:val.dueDate}}onAdd={fetchdata}/><DeleteToDo data={val.id}></DeleteToDo></td>
+                            </tr>
+                            
+                            </tbody>
+                            
+                                    )
+                    }
+                    })}
             </table>
             <AverageTimeToDo HighToDosDone={HighToDosDone} MiddleToDosDone={MiddleToDosDone} LowToDosDone={LowToDosDone}></AverageTimeToDo>
             <Pagination toDosPerPage={todosPerPage} totalTodos={toDo.length}paginate={paginate}currentPage={currentPage}></Pagination>
